@@ -1,4 +1,7 @@
 package nl.novi.eindopdrachtbackend.moviecollectieapi.repositories;
 
-public class GenreRepository {
+import nl.novi.eindopdrachtbackend.moviecollectieapi.entities.GenreEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GenreRepository extends JpaRepository<GenreEntity, Long> {
 }
