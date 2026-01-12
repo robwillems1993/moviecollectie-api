@@ -1,26 +1,9 @@
 package nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.poster;
 
-public class PosterResponseDTO {
-    private Long id;
-    private Long movieId;
+public class PosterDownloadDTO {
     private String fileName;
     private String contentType;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getMovieId() {
-        return movieId;
-    }
-
-    public void setMovieId(Long movieId) {
-        this.movieId = movieId;
-    }
+    private byte[] data;
 
     public String getFileName() {
         return fileName;
@@ -36,5 +19,13 @@ public class PosterResponseDTO {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
     }
 }

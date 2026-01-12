@@ -13,14 +13,13 @@ public class MovieEntity {
     private Long id;
 
     private String title;
-
     private String director;
-
     private Integer releaseYear;
-
     private String description;
-
     private LocalDateTime createdAt;
+
+    @OneToOne(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private MoviePosterEntity poster;
 
     public Long getId() {
         return id;
@@ -65,5 +64,13 @@ public class MovieEntity {
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    public MoviePosterEntity getPoster() {
+        return poster;
+    }
+
+    public void setPoster(MoviePosterEntity poster) {
+        this.poster = poster;
     }
 }
