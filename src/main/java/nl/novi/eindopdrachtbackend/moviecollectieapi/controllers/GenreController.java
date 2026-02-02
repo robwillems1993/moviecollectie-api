@@ -27,11 +27,11 @@ public class GenreController {
 
     @GetMapping("/{id}")
     public ResponseEntity<GenreResponseDTO> getGenreById(@PathVariable Long id) {
-        GenreResponseDTO genre = genreService.findGenreById(id);
-        if (genre == null) {
+        try {
+            return ResponseEntity.ok(genreService.findGenreById(id));
+        } catch (IllegalStateException exception) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(genre);
     }
 
     @PostMapping
@@ -42,20 +42,20 @@ public class GenreController {
 
     @PutMapping("/{id}")
     public ResponseEntity<GenreResponseDTO> updateGenre(@PathVariable Long id, @Valid @RequestBody GenreRequestDTO genreDTO) {
-        GenreResponseDTO updatedGenre = genreService.updateGenre(id, genreDTO);
-        if (updatedGenre == null) {
+        try {
+            return ResponseEntity.ok(genreService.updateGenre(id, genreDTO));
+        } catch (IllegalStateException exception) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(updatedGenre);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGenre(@PathVariable Long id) {
-        GenreResponseDTO genre = genreService.findGenreById(id);
-        if (genre == null) {
+        try {
+            genreService.deleteGenre(id);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalStateException exception) {
             return ResponseEntity.notFound().build();
         }
-        genreService.deleteGenre(id);
-        return ResponseEntity.noContent().build();
     }
 }

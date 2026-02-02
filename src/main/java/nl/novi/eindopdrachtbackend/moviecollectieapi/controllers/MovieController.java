@@ -27,11 +27,11 @@ public class MovieController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MovieResponseDTO> getMovieById(@PathVariable Long id) {
-        MovieResponseDTO movie = movieService.findMovieById(id);
-        if (movie == null) {
+        try {
+            return ResponseEntity.ok(movieService.findMovieById(id));
+        } catch (IllegalStateException exception){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(movie);
     }
 
     @PostMapping
@@ -42,20 +42,20 @@ public class MovieController {
 
     @PutMapping("/{id}")
     public ResponseEntity<MovieResponseDTO> updateMovie(@PathVariable Long id, @Valid @RequestBody MovieRequestDTO movieDTO) {
-        MovieResponseDTO updatedMovie = movieService.updateMovie(id, movieDTO);
-        if (updatedMovie == null) {
+        try {
+            return ResponseEntity.ok(movieService.updateMovie(id, movieDTO));
+        } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(updatedMovie);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
-        MovieResponseDTO movie = movieService.findMovieById(id);
-        if (movie == null) {
+        try {
+            movieService.deleteMovie(id);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalStateException exception) {
             return ResponseEntity.notFound().build();
         }
-        movieService.deleteMovie(id);
-        return ResponseEntity.noContent().build();
     }
 }

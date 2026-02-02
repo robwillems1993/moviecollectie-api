@@ -6,6 +6,7 @@ import nl.novi.eindopdrachtbackend.moviecollectieapi.entities.MovieEntity;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.mappers.MovieDTOMapper;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.repositories.MovieRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,27 +20,28 @@ public class MovieService {
         this.movieDTOMapper = movieDTOMapper;
     }
 
+    @Transactional(readOnly = true)
     public List<MovieResponseDTO> findAllMovies() {
         List<MovieEntity> movieEntities = movieRepository.findAll();
         return movieDTOMapper.mapToDto(movieEntities);
     }
 
+    @Transactional(readOnly = true)
     public MovieResponseDTO findMovieById(Long id) {
-        MovieEntity entity = movieRepository.findById(id).orElse(null);
-        return entity == null ? null : movieDTOMapper.mapToDto(entity);
+        MovieEntity entity = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException("Movie with id " + id + " not found"));
+        return movieDTOMapper.mapToDto(entity);
     }
 
+    @Transactional
     public MovieResponseDTO createMovie(MovieRequestDTO movieDTO) {
         MovieEntity entity = movieDTOMapper.mapToEntity(movieDTO);
         entity = movieRepository.save(entity);
         return movieDTOMapper.mapToDto(entity);
     }
 
+    @Transactional
     public MovieResponseDTO updateMovie(Long id, MovieRequestDTO movieDTO) {
-        MovieEntity movieEntity = movieRepository.findById(id).orElse(null);
-        if (movieEntity == null) {
-            return null;
-        }
+        MovieEntity movieEntity = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException("Movie with id " + id + " not found"));
 
         movieEntity.setTitle(movieDTO.getTitle());
         movieEntity.setDirector(movieDTO.getDirector());
@@ -50,11 +52,9 @@ public class MovieService {
         return movieDTOMapper.mapToDto(movieEntity);
     }
 
+    @Transactional
     public void deleteMovie(Long id) {
-        MovieEntity movieEntity = movieRepository.findById(id).orElse(null);
-        if (movieEntity == null) {
-            return;
-        }
+        MovieEntity movieEntity = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException("Movie with id " + id + " not found"));
         movieRepository.delete(movieEntity);
     }
 }
