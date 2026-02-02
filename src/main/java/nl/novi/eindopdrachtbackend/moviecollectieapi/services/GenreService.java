@@ -6,6 +6,7 @@ import nl.novi.eindopdrachtbackend.moviecollectieapi.entities.GenreEntity;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.mappers.GenreDTOMapper;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.repositories.GenreRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,27 +20,28 @@ public class GenreService {
         this.genreDTOMapper = genreDTOMapper;
     }
 
+    @Transactional(readOnly = true)
     public List<GenreResponseDTO> findAllGenres() {
         List<GenreEntity> genreEntities = genreRepository.findAll();
         return genreDTOMapper.mapToDto(genreEntities);
     }
 
+    @Transactional(readOnly = true)
     public GenreResponseDTO findGenreById(Long id) {
-        GenreEntity entity = genreRepository.findById(id).orElse(null);
-        return entity == null ? null : genreDTOMapper.mapToDto(entity);
+        GenreEntity entity = genreRepository.findById(id).orElseThrow(() -> new IllegalStateException("Genre with id " + id + " not found"));
+        return genreDTOMapper.mapToDto(entity);
     }
 
+    @Transactional
     public GenreResponseDTO createGenre(GenreRequestDTO genreDTO) {
         GenreEntity entity = genreDTOMapper.mapToEntity(genreDTO);
         entity = genreRepository.save(entity);
         return genreDTOMapper.mapToDto(entity);
     }
 
+    @Transactional
     public GenreResponseDTO updateGenre(Long id, GenreRequestDTO genreDTO) {
-        GenreEntity genreEntity = genreRepository.findById(id).orElse(null);
-        if (genreEntity == null) {
-            return null;
-        }
+        GenreEntity genreEntity = genreRepository.findById(id).orElseThrow(() -> new IllegalStateException("Genre with id " + id + " not found"));
 
         genreEntity.setName(genreDTO.getName());
         genreEntity.setDescription(genreDTO.getDescription());
@@ -48,11 +50,9 @@ public class GenreService {
         return genreDTOMapper.mapToDto(genreEntity);
     }
 
+    @Transactional
     public void deleteGenre(Long id) {
-        GenreEntity genreEntity = genreRepository.findById(id).orElse(null);
-        if (genreEntity == null) {
-            return;
-        }
+        GenreEntity genreEntity = genreRepository.findById(id).orElseThrow(() -> new IllegalStateException("Genre with id " + id + " not found"));
         genreRepository.delete(genreEntity);
     }
 }

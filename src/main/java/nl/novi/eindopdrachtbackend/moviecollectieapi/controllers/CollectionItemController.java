@@ -24,8 +24,12 @@ public class CollectionItemController {
     public ResponseEntity<CollectionItemResponseDTO> addToMyWatchlist(@PathVariable Long movieId,
                                                                       Authentication authentication) {
         String username = authentication.getName();
-        CollectionItemResponseDTO created = collectionItemService.addMovieToCollection(username, movieId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        try {
+            CollectionItemResponseDTO created = collectionItemService.addMovieToCollection(username, movieId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        } catch (IllegalStateException exception) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/collections")
@@ -39,14 +43,22 @@ public class CollectionItemController {
                                                                        @Valid @RequestBody CollectionItemUpdateDTO dto,
                                                                        Authentication authentication) {
         String username = authentication.getName();
-        return ResponseEntity.ok(collectionItemService.updateMyCollectionItem(username, movieId, dto));
+        try {
+            return ResponseEntity.ok(collectionItemService.updateMyCollectionItem(username, movieId, dto));
+        } catch (IllegalStateException exception) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/collections/{movieId}")
     public ResponseEntity<Void> deleteWatchlistMovie(@PathVariable Long movieId,
                                                      Authentication authentication) {
         String username = authentication.getName();
-        collectionItemService.deleteMyCollectionItem(username, movieId);
-        return ResponseEntity.noContent().build();
+        try {
+            collectionItemService.deleteMyCollectionItem(username, movieId);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalStateException exception) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

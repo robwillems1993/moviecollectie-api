@@ -14,6 +14,8 @@ import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.*;
 
@@ -29,12 +31,22 @@ public class SecurityConfig {
     @Value("${client-id}")
     private String clientId;
 
+    UrlBasedCorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOrigins(List.of("*"));
+        corsConfiguration.setAllowedMethods(List.of("*"));
+        corsConfiguration.setAllowedHeaders(List.of("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return source;
+    }
+
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http
                 .httpBasic(h -> h.disable())
                 .csrf(c -> c.disable())
-                .cors(c -> {})
+                .cors(c -> c.configurationSource(corsConfigurationSource()))
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .decoder(jwtDecoder())
@@ -43,24 +55,23 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/movies/**").hasAnyRole("USER","ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/movies/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/movies/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/movies/**").hasRole("ADMIN")
+
                         .requestMatchers(HttpMethod.GET, "/genres/**").hasAnyRole("USER","ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/genres/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/genres/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/genres/**").hasRole("ADMIN")
+
                         .requestMatchers(HttpMethod.GET, "/movies/*/poster").hasAnyRole("USER","ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/movies/*/poster").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/movies/*/poster").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.POST, "/collections/**").hasAnyRole("USER","ADMIN")
                         .requestMatchers(HttpMethod.GET, "/collections/**").hasAnyRole("USER","ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/collections/**").hasAnyRole("USER","ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/collections/**").hasAnyRole("USER","ADMIN")
-
-                        .requestMatchers(HttpMethod.POST, "/movies/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/movies/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/movies/**").hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.POST, "/genres/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/genres/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/genres/**").hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.POST, "/movies/*/poster").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/movies/*/poster").hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )
@@ -94,10 +105,10 @@ public class SecurityConfig {
                 return grantedAuthorities;
             }
             private List<String> getAuthorities(Jwt jwt){
-                Map<String, Object> resourceAcces = jwt.getClaim("resource_access");
-                if(resourceAcces != null){
-                    if( resourceAcces.get(clientId) instanceof Map) {
-                        Map<String, Object> client = (Map<String, Object>) resourceAcces.get(clientId);
+                Map<String, Object> resourceAccess = jwt.getClaim("resource_access");
+                if(resourceAccess != null){
+                    if( resourceAccess.get(clientId) instanceof Map) {
+                        Map<String, Object> client = (Map<String, Object>) resourceAccess.get(clientId);
                         if(client != null && client.containsKey("roles")) {
                             return (List<String>) client.get("roles");
                         }
