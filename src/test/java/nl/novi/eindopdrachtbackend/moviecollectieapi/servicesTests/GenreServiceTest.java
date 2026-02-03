@@ -46,19 +46,13 @@ class GenreServiceTest {
     }
 
     @Test
-    void findGenreById_empty_returnNull() {
+    void findGenreById_empty_returnException() {
         // Arrange
         Long id = 1L;
-
         when(genreRepository.findById(id)).thenReturn(Optional.empty());
 
-        // Act
-        GenreResponseDTO result = genreService.findGenreById(id);
-
-        // Assert
-        assertNull(result);
-        verify(genreRepository).findById(id);
-        verifyNoInteractions(genreDTOMapper);
+        // Act en Assert
+        assertThrows(IllegalStateException.class,() -> genreService.findGenreById(id));
     }
 
     @Test
@@ -107,24 +101,14 @@ class GenreServiceTest {
     }
 
     @Test
-    void updateGenre_empty_returnNull() {
+    void updateGenre_empty_returnException() {
         // Arrange
         Long id = 3L;
 
-        GenreRequestDTO request = new GenreRequestDTO();
-        request.setName("Star Wars");
-        request.setDescription("Star Wars isn't its own genre?");
-
         when(genreRepository.findById(id)).thenReturn(Optional.empty());
 
-        // Act
-        GenreResponseDTO result = genreService.updateGenre(id, request);
-
-        // Assert
-        assertNull(result);
-        verify(genreRepository).findById(id);
-        verify(genreRepository, never()).save(any());
-        verifyNoInteractions(genreDTOMapper);
+        // Act en Assert
+        assertThrows(IllegalStateException.class,()-> genreService.updateGenre(id, new GenreRequestDTO()));
     }
 
     @Test
@@ -156,9 +140,19 @@ class GenreServiceTest {
     }
 
     @Test
-    void deleteGenreTest() {
+    void deleteGenreTest_whenNotFound_returnException() {
         // Arrange
         Long id = 5L;
+        when(genreRepository.findById(id)).thenReturn(Optional.empty());
+
+        // Act en Assert
+        assertThrows(IllegalStateException.class, ()-> genreService.deleteGenre(id));
+    }
+
+    @Test
+    void deleteGenreTest_whenFound_deleteGenre() {
+        // Arrange
+        Long id = 6L;
         GenreEntity entity = new GenreEntity();
         when(genreRepository.findById(id)).thenReturn(Optional.of(entity));
 
@@ -166,7 +160,6 @@ class GenreServiceTest {
         genreService.deleteGenre(id);
 
         // Assert
-        verify(genreRepository).findById(id);
         verify(genreRepository).delete(entity);
     }
 }

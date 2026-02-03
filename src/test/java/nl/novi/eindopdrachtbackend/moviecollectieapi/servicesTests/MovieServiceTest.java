@@ -46,9 +46,19 @@ class MovieServiceTest {
     }
 
     @Test
-    void findMovieByIdTest() {
+    void findMovieById_ifEmpty_returnException() {
         // Arrange
         Long id = 1L;
+        when(movieRepository.findById(id)).thenReturn(Optional.empty());
+
+        // Act en Assert
+        assertThrows(IllegalStateException.class,()-> movieService.findMovieById(id));
+    }
+
+    @Test
+    void findMovieById_ifFound_returnMovie() {
+        // Arrange
+        Long id = 2L;
         MovieEntity entity = new MovieEntity();
         MovieResponseDTO dto = new MovieResponseDTO();
 
@@ -60,9 +70,8 @@ class MovieServiceTest {
 
         // Assert
         assertSame(dto, result);
-        verify(movieRepository).findById(id);
-        verify(movieDTOMapper).mapToDto(entity);
     }
+
 
     @Test
     void createMovieTest() {
@@ -92,25 +101,19 @@ class MovieServiceTest {
     }
 
     @Test
-    void updateMovie_empty_returnNull() {
+    void updateMovie_empty_returnException() {
         // Arrange
-        Long id = 2L;
+        Long id = 3L;
         when(movieRepository.findById(id)).thenReturn(Optional.empty());
 
-        // Act
-        MovieResponseDTO result = movieService.updateMovie(id, new MovieRequestDTO());
-
-        // Assert
-        assertNull(result);
-        verify(movieRepository).findById(id);
-        verify(movieRepository, never()).save(any());
-        verifyNoInteractions(movieDTOMapper);
+        // Act en Assert
+        assertThrows(IllegalStateException.class,()-> movieService.updateMovie(id, new MovieRequestDTO()));
     }
 
     @Test
     void updateMovie_whenFound_updateMovie() {
         // Arrange
-        Long id = 3L;
+        Long id = 4L;
 
         MovieRequestDTO foundMovie = new MovieRequestDTO();
         foundMovie.setTitle("Predestination");
@@ -141,10 +144,19 @@ class MovieServiceTest {
     }
 
     @Test
-    void deleteMovieTest() {
+    void deleteMovieTest_ifEmpty_returnException() {
         // Arrange
-        Long id = 4L;
+        Long id = 5L;
+        when(movieRepository.findById(id)).thenReturn(Optional.empty());
 
+        // Act en Assert
+        assertThrows(IllegalStateException.class, ()-> movieService.deleteMovie(id));
+    }
+
+    @Test
+    void deleteMovieTest_whenFound_deleteMovie() {
+        // Arrange
+        Long id = 6L;
         MovieEntity entity = new MovieEntity();
         when(movieRepository.findById(id)).thenReturn(Optional.of(entity));
 
@@ -152,7 +164,7 @@ class MovieServiceTest {
         movieService.deleteMovie(id);
 
         // Assert
-        verify(movieRepository).findById(id);
         verify(movieRepository).delete(entity);
     }
+
 }
