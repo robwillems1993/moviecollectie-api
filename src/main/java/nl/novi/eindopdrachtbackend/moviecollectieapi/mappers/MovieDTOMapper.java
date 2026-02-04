@@ -18,6 +18,11 @@ public class MovieDTOMapper {
         dto.setReleaseYear(entity.getReleaseYear());
         dto.setDescription(entity.getDescription());
         dto.setCreatedAt(entity.getCreatedAt());
+
+        if(entity.getGenre() != null) {
+            dto.setGenreId(entity.getGenre().getId());
+            dto.setGenreName(entity.getGenre().getName());
+        }
         return dto;
     }
 

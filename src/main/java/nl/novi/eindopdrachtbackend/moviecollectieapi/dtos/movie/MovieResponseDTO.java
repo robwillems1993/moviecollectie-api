@@ -9,6 +9,8 @@ public class MovieResponseDTO {
     private Integer releaseYear;
     private String description;
     private LocalDateTime createdAt;
+    private Long genreId;
+    private String genreName;
 
     public Long getId() {
         return id;
@@ -56,5 +58,21 @@ public class MovieResponseDTO {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Long getGenreId() {
+        return genreId;
+    }
+
+    public void setGenreId(Long genreId) {
+        this.genreId = genreId;
+    }
+
+    public String getGenreName() {
+        return genreName;
+    }
+
+    public void setGenreName(String genreName) {
+        this.genreName = genreName;
     }
 }

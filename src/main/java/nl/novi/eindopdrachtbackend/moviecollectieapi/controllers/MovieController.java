@@ -20,9 +20,12 @@ public class MovieController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MovieResponseDTO>> getAllMovies() {
-        List<MovieResponseDTO> movies = movieService.findAllMovies();
-        return ResponseEntity.ok(movies);
+    public ResponseEntity<List<MovieResponseDTO>> getAllMovies(@RequestParam(required = false) String genre) {
+        if (genre != null && !genre.isBlank()) {
+            return ResponseEntity.ok(movieService.findMoviesByGenreName(genre));
+        }
+        List<MovieResponseDTO> moviesList = movieService.findAllMovies();
+        return ResponseEntity.ok(moviesList);
     }
 
     @GetMapping("/{id}")

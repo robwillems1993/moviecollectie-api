@@ -2,8 +2,10 @@ package nl.novi.eindopdrachtbackend.moviecollectieapi.services;
 
 import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.movie.MovieRequestDTO;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.movie.MovieResponseDTO;
+import nl.novi.eindopdrachtbackend.moviecollectieapi.entities.GenreEntity;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.entities.MovieEntity;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.mappers.MovieDTOMapper;
+import nl.novi.eindopdrachtbackend.moviecollectieapi.repositories.GenreRepository;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.repositories.MovieRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,15 +16,23 @@ import java.util.List;
 public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieDTOMapper movieDTOMapper;
+    private final GenreRepository genreRepository;
 
-    public MovieService(MovieRepository movieRepository, MovieDTOMapper movieDTOMapper) {
+    public MovieService(MovieRepository movieRepository, MovieDTOMapper movieDTOMapper, GenreRepository genreRepository) {
         this.movieRepository = movieRepository;
         this.movieDTOMapper = movieDTOMapper;
+        this.genreRepository = genreRepository;
     }
 
     @Transactional(readOnly = true)
     public List<MovieResponseDTO> findAllMovies() {
         List<MovieEntity> movieEntities = movieRepository.findAll();
+        return movieDTOMapper.mapToDto(movieEntities);
+    }
+
+    @Transactional(readOnly = true)
+    public List<MovieResponseDTO> findMoviesByGenreName(String genreName) {
+        List<MovieEntity> movieEntities = movieRepository.findByGenreName(genreName);
         return movieDTOMapper.mapToDto(movieEntities);
     }
 
@@ -34,22 +44,29 @@ public class MovieService {
 
     @Transactional
     public MovieResponseDTO createMovie(MovieRequestDTO movieDTO) {
+        GenreEntity genre = genreRepository.findById(movieDTO.getGenreId()).orElseThrow(()-> new IllegalStateException("Genre with id " + movieDTO.getGenreId() + " not found"));
+
         MovieEntity entity = movieDTOMapper.mapToEntity(movieDTO);
+        entity.setGenre(genre);
+
         entity = movieRepository.save(entity);
         return movieDTOMapper.mapToDto(entity);
     }
 
     @Transactional
     public MovieResponseDTO updateMovie(Long id, MovieRequestDTO movieDTO) {
-        MovieEntity movieEntity = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException("Movie with id " + id + " not found"));
+        MovieEntity movie = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException("Movie with id " + id + " not found"));
 
-        movieEntity.setTitle(movieDTO.getTitle());
-        movieEntity.setDirector(movieDTO.getDirector());
-        movieEntity.setReleaseYear(movieDTO.getReleaseYear());
-        movieEntity.setDescription(movieDTO.getDescription());
+        GenreEntity genre = genreRepository.findById(id).orElseThrow(() -> new IllegalStateException("Genre with id " + movieDTO.getGenreId() + " not found"));
 
-        movieEntity = movieRepository.save(movieEntity);
-        return movieDTOMapper.mapToDto(movieEntity);
+        movie.setTitle(movieDTO.getTitle());
+        movie.setDirector(movieDTO.getDirector());
+        movie.setReleaseYear(movieDTO.getReleaseYear());
+        movie.setDescription(movieDTO.getDescription());
+        movie.setGenre(genre);
+
+        movie = movieRepository.save(movie);
+        return movieDTOMapper.mapToDto(movie);
     }
 
     @Transactional

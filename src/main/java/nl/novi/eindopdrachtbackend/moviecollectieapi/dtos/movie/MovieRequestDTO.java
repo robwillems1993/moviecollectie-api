@@ -19,6 +19,9 @@ public class MovieRequestDTO {
 
     private String description;
 
+    @NotNull
+    private Long genreId;
+
     public String getTitle() {
         return title;
     }
@@ -49,5 +52,13 @@ public class MovieRequestDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getGenreId() {
+        return genreId;
+    }
+
+    public void setGenreId(Long genreId) {
+        this.genreId = genreId;
     }
 }

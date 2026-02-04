@@ -12,11 +12,20 @@ public class MovieEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private String director;
+
+    @Column(nullable = false)
     private Integer releaseYear;
     private String description;
     private LocalDateTime createdAt;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "genre_id", nullable = false)
+    private GenreEntity genre;
 
     @OneToOne(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     private MoviePosterEntity poster;
@@ -72,5 +81,13 @@ public class MovieEntity {
 
     public void setPoster(MoviePosterEntity poster) {
         this.poster = poster;
+    }
+
+    public GenreEntity getGenre() {
+        return genre;
+    }
+
+    public void setGenre(GenreEntity genre) {
+        this.genre = genre;
     }
 }
