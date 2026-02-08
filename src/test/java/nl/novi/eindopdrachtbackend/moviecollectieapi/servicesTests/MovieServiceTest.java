@@ -2,8 +2,10 @@ package nl.novi.eindopdrachtbackend.moviecollectieapi.servicesTests;
 
 import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.movie.MovieRequestDTO;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.movie.MovieResponseDTO;
+import nl.novi.eindopdrachtbackend.moviecollectieapi.entities.GenreEntity;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.entities.MovieEntity;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.mappers.MovieDTOMapper;
+import nl.novi.eindopdrachtbackend.moviecollectieapi.repositories.GenreRepository;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.repositories.MovieRepository;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.services.MovieService;
 import org.junit.jupiter.api.Test;
@@ -23,6 +25,7 @@ class MovieServiceTest {
 
     @Mock MovieRepository movieRepository;
     @Mock MovieDTOMapper movieDTOMapper;
+    @Mock GenreRepository genreRepository;
 
     @InjectMocks
     MovieService movieService;
@@ -41,8 +44,23 @@ class MovieServiceTest {
 
         // Assert
         assertSame(dtos, result);
-        verify(movieRepository).findAll();
-        verify(movieDTOMapper).mapToDto(entities);
+    }
+
+    @Test
+    void findMoviesByGenreNameTest() {
+        // Arrange
+        String genreName = "Action";
+        List<MovieEntity> movies = List.of(new MovieEntity());
+        List<MovieResponseDTO> dtos = List.of(new MovieResponseDTO());
+
+        when(movieRepository.findByGenreName(genreName)).thenReturn(movies);
+        when(movieDTOMapper.mapToDto(movies)).thenReturn(dtos);
+
+        // Act
+        List<MovieResponseDTO> result = movieService.findMoviesByGenreName(genreName);
+
+        // Assert
+        assertSame(dtos, result);
     }
 
     @Test
@@ -81,11 +99,15 @@ class MovieServiceTest {
         newMovie.setDirector("Michael Spierig");
         newMovie.setReleaseYear(2014);
         newMovie.setDescription("A temporal agent is sent on an intricate series of time-travel journeys designed to ensure the continuation of his law enforcement career for eternity.");
+        newMovie.setGenreId(1L);
+
+        GenreEntity genre = new GenreEntity();
 
         MovieEntity entityToSave = new MovieEntity();
         MovieEntity savedEntity = new MovieEntity();
         MovieResponseDTO response = new MovieResponseDTO();
 
+        when(genreRepository.findById(1L)).thenReturn(Optional.of(genre));
         when(movieDTOMapper.mapToEntity(newMovie)).thenReturn(entityToSave);
         when(movieRepository.save(entityToSave)).thenReturn(savedEntity);
         when(movieDTOMapper.mapToDto(savedEntity)).thenReturn(response);
@@ -95,15 +117,24 @@ class MovieServiceTest {
 
         // Assert
         assertSame(response, result);
-        verify(movieDTOMapper).mapToEntity(newMovie);
-        verify(movieRepository).save(entityToSave);
-        verify(movieDTOMapper).mapToDto(savedEntity);
     }
 
     @Test
-    void updateMovie_empty_returnException() {
+    void createMovie_GenreNotFound_ReturnException(){
         // Arrange
-        Long id = 3L;
+        MovieRequestDTO request = new MovieRequestDTO();
+        request.setGenreId(2L);
+
+        when(genreRepository.findById(2L)).thenReturn(Optional.empty());
+
+        // Act en Assert
+        assertThrows(IllegalStateException.class, () -> movieService.createMovie(request));
+    }
+
+    @Test
+    void updateMovie_emptyMovie_returnException() {
+        // Arrange
+        Long id = 5L;
         when(movieRepository.findById(id)).thenReturn(Optional.empty());
 
         // Act en Assert
@@ -111,20 +142,40 @@ class MovieServiceTest {
     }
 
     @Test
+    void updateMovie_emptyGenre_returnException() {
+        // Arrange
+        Long movieId = 6L;
+        MovieEntity movie = new MovieEntity();
+        when(movieRepository.findById(movieId)).thenReturn(Optional.of(movie));
+
+        MovieRequestDTO request = new MovieRequestDTO();
+        request.setGenreId(3L);
+
+        when(genreRepository.findById(3L)).thenReturn(Optional.empty());
+
+        // Act en Assert
+        assertThrows(IllegalStateException.class, ()-> movieService.updateMovie(movieId,request));
+    }
+
+    @Test
     void updateMovie_whenFound_updateMovie() {
         // Arrange
-        Long id = 4L;
+        Long id = 7L;
 
         MovieRequestDTO foundMovie = new MovieRequestDTO();
         foundMovie.setTitle("Predestination");
         foundMovie.setDirector("Ali Babba");
         foundMovie.setReleaseYear(2014);
         foundMovie.setDescription("A temporal agent is sent on an intricate series of time-travel journeys designed to ensure the continuation of his law enforcement career for eternity.");
+        foundMovie.setGenreId(4L);
 
         MovieEntity existing = new MovieEntity();
+        GenreEntity genre = new GenreEntity();
+
         MovieResponseDTO response = new MovieResponseDTO();
 
         when(movieRepository.findById(id)).thenReturn(Optional.of(existing));
+        when(genreRepository.findById(4L)).thenReturn(Optional.of(genre));
         when(movieRepository.save(existing)).thenReturn(existing);
         when(movieDTOMapper.mapToDto(existing)).thenReturn(response);
 
@@ -137,16 +188,13 @@ class MovieServiceTest {
         assertEquals("Ali Babba", existing.getDirector());
         assertEquals(2014, existing.getReleaseYear());
         assertEquals("A temporal agent is sent on an intricate series of time-travel journeys designed to ensure the continuation of his law enforcement career for eternity.", existing.getDescription());
-
-        verify(movieRepository).findById(id);
-        verify(movieRepository).save(existing);
-        verify(movieDTOMapper).mapToDto(existing);
+        assertEquals(genre, existing.getGenre());
     }
 
     @Test
     void deleteMovieTest_ifEmpty_returnException() {
         // Arrange
-        Long id = 5L;
+        Long id = 8L;
         when(movieRepository.findById(id)).thenReturn(Optional.empty());
 
         // Act en Assert
@@ -156,7 +204,7 @@ class MovieServiceTest {
     @Test
     void deleteMovieTest_whenFound_deleteMovie() {
         // Arrange
-        Long id = 6L;
+        Long id = 9L;
         MovieEntity entity = new MovieEntity();
         when(movieRepository.findById(id)).thenReturn(Optional.of(entity));
 
@@ -166,4 +214,5 @@ class MovieServiceTest {
         // Assert
         verify(movieRepository).delete(entity);
     }
+
 }

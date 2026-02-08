@@ -57,7 +57,7 @@ public class MovieService {
     public MovieResponseDTO updateMovie(Long id, MovieRequestDTO movieDTO) {
         MovieEntity movie = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException("Movie with id " + id + " not found"));
 
-        GenreEntity genre = genreRepository.findById(id).orElseThrow(() -> new IllegalStateException("Genre with id " + movieDTO.getGenreId() + " not found"));
+        GenreEntity genre = genreRepository.findById(movieDTO.getGenreId()).orElseThrow(() -> new IllegalStateException("Genre with id " + movieDTO.getGenreId() + " not found"));
 
         movie.setTitle(movieDTO.getTitle());
         movie.setDirector(movieDTO.getDirector());
