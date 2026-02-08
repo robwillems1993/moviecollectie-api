@@ -31,7 +31,12 @@ public class MoviePosterController {
     public ResponseEntity<byte[]> downloadPoster(@PathVariable Long movieId) {
         try {
             PosterDownloadDTO downloadedPoster = moviePosterService.downloadPoster(movieId);
-            return new ResponseEntity<>(downloadedPoster.getData(), HttpStatus.OK);
+
+
+            return ResponseEntity.ok()
+                    .header("Content-Type", downloadedPoster.getContentType())
+                    .header("Content-Disposition", "inline; filename=\"" + downloadedPoster.getFileName() + "\"")
+                    .body(downloadedPoster.getData());
         } catch (IllegalStateException exception) {
             return ResponseEntity.notFound().build();
         }
