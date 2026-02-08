@@ -166,5 +166,4 @@ class MovieServiceTest {
         // Assert
         verify(movieRepository).delete(entity);
     }
-
 }

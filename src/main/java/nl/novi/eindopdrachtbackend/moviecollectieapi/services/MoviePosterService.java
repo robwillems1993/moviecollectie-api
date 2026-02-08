@@ -31,10 +31,11 @@ public class MoviePosterService {
     public PosterResponseDTO uploadPoster(Long movieId, MultipartFile file) {
         MovieEntity movie = movieRepository.findById(movieId).orElseThrow(() -> new IllegalStateException("Movie with id " + movieId + " not found"));
 
-        MoviePosterEntity poster = moviePosterRepository.findByMovieId(movieId);
+        MoviePosterEntity poster = moviePosterRepository.findByMovie_Id(movieId).orElse(null);
         if (poster == null) {
             poster = new MoviePosterEntity();
             poster.setMovie(movie);
+            movie.setPoster(poster);
         }
         try {
 
@@ -50,19 +51,24 @@ public class MoviePosterService {
 
     @Transactional(readOnly = true)
     public PosterDownloadDTO downloadPoster(Long movieId) {
-        MoviePosterEntity poster = moviePosterRepository.findByMovieId(movieId);
-        if (poster == null) {
-            throw new IllegalStateException("Poster from movie with movie id " + movieId + " was not found");
-        }
+        MoviePosterEntity poster = moviePosterRepository.findByMovie_Id(movieId)
+                .orElseThrow(()-> new IllegalStateException("Poster from movie with movie id " + movieId + " was not found"));
+
         return moviePosterDTOMapper.mapToDownloadDto(poster);
     }
 
     @Transactional
     public void deletePoster(Long movieId) {
-        MoviePosterEntity poster = moviePosterRepository.findByMovieId(movieId);
-        if (poster == null) {
-            throw new IllegalStateException("Poster from movie with movie id " + movieId + " was not found");
-        }
+        MovieEntity movie = movieRepository.findById(movieId)
+                .orElseThrow(()-> new IllegalStateException("Movie from movie with movie id " + movieId + " was not found"));
+
+        MoviePosterEntity poster = moviePosterRepository.findByMovie_Id(movieId)
+                .orElseThrow(()-> new IllegalStateException("Poster from movie with movie id " + movieId + " was not found"));
+
+        movie.setPoster(null);
+        poster.setMovie(null);
+
         moviePosterRepository.delete(poster);
+        moviePosterRepository.flush();
     }
 }
