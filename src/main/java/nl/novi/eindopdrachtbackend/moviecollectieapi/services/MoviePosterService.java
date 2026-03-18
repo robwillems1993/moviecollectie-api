@@ -1,5 +1,6 @@
 package nl.novi.eindopdrachtbackend.moviecollectieapi.services;
 
+import nl.novi.eindopdrachtbackend.moviecollectieapi.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.poster.PosterDownloadDTO;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.poster.PosterResponseDTO;
@@ -29,7 +30,7 @@ public class MoviePosterService {
 
     @Transactional
     public PosterResponseDTO uploadPoster(Long movieId, MultipartFile file) {
-        MovieEntity movie = movieRepository.findById(movieId).orElseThrow(() -> new IllegalStateException("Movie with id " + movieId + " not found"));
+        MovieEntity movie = movieRepository.findById(movieId).orElseThrow(() -> new ResourceNotFoundException("Movie with id " + movieId + " not found"));
 
         MoviePosterEntity poster = moviePosterRepository.findByMovie_Id(movieId).orElse(null);
         if (poster == null) {
@@ -43,7 +44,7 @@ public class MoviePosterService {
             poster.setContentType(file.getContentType());
             poster.setData(file.getBytes());
         } catch (IOException exception) {
-            throw new IllegalStateException("Something went wrong while uploading");
+            throw new RuntimeException("Something went wrong while uploading");
         }
         poster = moviePosterRepository.save(poster);
         return moviePosterDTOMapper.mapToDto(poster);
@@ -52,7 +53,7 @@ public class MoviePosterService {
     @Transactional(readOnly = true)
     public PosterDownloadDTO downloadPoster(Long movieId) {
         MoviePosterEntity poster = moviePosterRepository.findByMovie_Id(movieId)
-                .orElseThrow(()-> new IllegalStateException("Poster from movie with movie id " + movieId + " was not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Poster from movie with movie id " + movieId + " was not found"));
 
         return moviePosterDTOMapper.mapToDownloadDto(poster);
     }
@@ -60,10 +61,10 @@ public class MoviePosterService {
     @Transactional
     public void deletePoster(Long movieId) {
         MovieEntity movie = movieRepository.findById(movieId)
-                .orElseThrow(()-> new IllegalStateException("Movie from movie with movie id " + movieId + " was not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Movie from movie with movie id " + movieId + " was not found"));
 
         MoviePosterEntity poster = moviePosterRepository.findByMovie_Id(movieId)
-                .orElseThrow(()-> new IllegalStateException("Poster from movie with movie id " + movieId + " was not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Poster from movie with movie id " + movieId + " was not found"));
 
         movie.setPoster(null);
         poster.setMovie(null);

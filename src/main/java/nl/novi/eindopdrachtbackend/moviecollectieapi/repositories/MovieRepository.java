@@ -10,4 +10,6 @@ public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
     List<MovieEntity> findByGenreName(String name);
 
     String genre(GenreEntity genre);
+
+    boolean existsByTitleIgnoreCaseAndDirectorIgnoreCase(String title, String director);
 }

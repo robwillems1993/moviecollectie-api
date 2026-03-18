@@ -12,7 +12,6 @@ public class MoviePosterEntity {
     private String fileName;
     private String contentType;
 
-    @Lob
     @Column(nullable = false)
     private byte[] data;
 

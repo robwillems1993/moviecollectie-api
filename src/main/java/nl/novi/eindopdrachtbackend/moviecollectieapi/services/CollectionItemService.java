@@ -4,6 +4,8 @@ import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.collection.CollectionI
 import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.collection.CollectionItemUpdateDTO;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.entities.CollectionItemEntity;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.entities.MovieEntity;
+import nl.novi.eindopdrachtbackend.moviecollectieapi.exceptions.ConflictException;
+import nl.novi.eindopdrachtbackend.moviecollectieapi.exceptions.ResourceNotFoundException;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.mappers.CollectionItemDTOMapper;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.repositories.CollectionItemRepository;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.repositories.MovieRepository;
@@ -30,11 +32,11 @@ public class CollectionItemService {
     @Transactional
     public CollectionItemResponseDTO addMovieToCollection(String username, Long movieId) {
         if (collectionItemRepository.existsByUsernameAndMovieId(username, movieId)) {
-            throw new IllegalStateException("Movie already in collection");
+            throw new ConflictException("Movie already in collection");
         }
 
         MovieEntity movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new IllegalStateException("Movie not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Movie not found"));
 
         CollectionItemEntity item = new CollectionItemEntity();
         item.setUsername(username);
@@ -60,7 +62,7 @@ public class CollectionItemService {
     @Transactional
     public CollectionItemResponseDTO updateMyCollectionItem(String username, Long movieId, CollectionItemUpdateDTO dto) {
         CollectionItemEntity item = collectionItemRepository.findByUsernameAndMovieId(username, movieId)
-                .orElseThrow(() -> new IllegalStateException("Collection item not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Collection item not found"));
 
         if (dto.getStatus() != null) {
             item.setStatus(dto.getStatus());
@@ -79,7 +81,7 @@ public class CollectionItemService {
     @Transactional
     public void deleteMyCollectionItem(String username, Long movieId) {
         CollectionItemEntity item = collectionItemRepository.findByUsernameAndMovieId(username, movieId)
-                .orElseThrow(() -> new IllegalStateException("Collection item not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Collection item not found"));
         collectionItemRepository.delete(item);
     }
 }

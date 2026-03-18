@@ -4,6 +4,7 @@ import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.movie.MovieRequestDTO;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.movie.MovieResponseDTO;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.entities.GenreEntity;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.entities.MovieEntity;
+import nl.novi.eindopdrachtbackend.moviecollectieapi.exceptions.ResourceNotFoundException;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.mappers.MovieDTOMapper;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.repositories.GenreRepository;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.repositories.MovieRepository;
@@ -70,7 +71,7 @@ class MovieServiceTest {
         when(movieRepository.findById(id)).thenReturn(Optional.empty());
 
         // Act en Assert
-        assertThrows(IllegalStateException.class,()-> movieService.findMovieById(id));
+        assertThrows(ResourceNotFoundException.class,()-> movieService.findMovieById(id));
     }
 
     @Test
@@ -128,7 +129,7 @@ class MovieServiceTest {
         when(genreRepository.findById(2L)).thenReturn(Optional.empty());
 
         // Act en Assert
-        assertThrows(IllegalStateException.class, () -> movieService.createMovie(request));
+        assertThrows(ResourceNotFoundException.class, () -> movieService.createMovie(request));
     }
 
     @Test
@@ -138,7 +139,7 @@ class MovieServiceTest {
         when(movieRepository.findById(id)).thenReturn(Optional.empty());
 
         // Act en Assert
-        assertThrows(IllegalStateException.class,()-> movieService.updateMovie(id, new MovieRequestDTO()));
+        assertThrows(ResourceNotFoundException.class,()-> movieService.updateMovie(id, new MovieRequestDTO()));
     }
 
     @Test
@@ -154,7 +155,7 @@ class MovieServiceTest {
         when(genreRepository.findById(3L)).thenReturn(Optional.empty());
 
         // Act en Assert
-        assertThrows(IllegalStateException.class, ()-> movieService.updateMovie(movieId,request));
+        assertThrows(ResourceNotFoundException.class, ()-> movieService.updateMovie(movieId,request));
     }
 
     @Test
@@ -198,7 +199,7 @@ class MovieServiceTest {
         when(movieRepository.findById(id)).thenReturn(Optional.empty());
 
         // Act en Assert
-        assertThrows(IllegalStateException.class, ()-> movieService.deleteMovie(id));
+        assertThrows(ResourceNotFoundException.class, ()-> movieService.deleteMovie(id));
     }
 
     @Test

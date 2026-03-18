@@ -1,0 +1,1941 @@
+{
+  "info": {
+    "_postman_id": "d30631de-8cfb-435e-afdd-76a3c3548b47",
+    "name": "MovieCollection-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "36749509"
+  },
+  "item": [
+    {
+      "name": "Movie",
+      "item": [
+        {
+          "name": "Create Movie",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid profile email",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Test Movie\",\r\n  \"director\": \"Rob Willems\",\r\n  \"releaseYear\": 2026,\r\n  \"description\": \"Test description\",\r\n  \"genreId\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/movies",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "movies"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Movies",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid profile email",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/movies",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "movies"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Movie By ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "openid email",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Interstellar\",\r\n  \"director\": \"Christopher Nolan\",\r\n  \"releaseYear\": 2014,\r\n  \"description\": \"Space epic\"\r\n}\r\n"
+            },
+            "url": {
+              "raw": "http://localhost:8080/movies/13",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "movies",
+                "13"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Movie",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "openid email",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"createdAt\": \"2026-02-08T12:56:44.781119\",\r\n    \"description\": \"A thief enters dreams, or something like that..\",\r\n    \"director\": \"Christopher Nolan\",\r\n    \"genreId\": 3,\r\n    \"genreName\": \"Science Fiction\",\r\n    \"id\": 21,\r\n    \"releaseYear\": 2010,\r\n    \"title\": \"Inception\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/movies/4",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "movies",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Movie",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "openid email",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/movies/19",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "movies",
+                "19"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get all Moves by Genre",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "openid email",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/movies?genre=War",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "movies"
+              ],
+              "query": [
+                {
+                  "key": "genre",
+                  "value": "War"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Genre",
+      "item": [
+        {
+          "name": "Get All Genres",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "openid email",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Interstellar\",\r\n  \"director\": \"Ali Babba\",\r\n  \"releaseYear\": 2014,\r\n  \"description\": \"Space epic\"\r\n}\r\n"
+            },
+            "url": {
+              "raw": "http://localhost:8080/genres",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "genres"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Genre By ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "openid email",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Interstellar\",\r\n  \"director\": \"Ali Babba\",\r\n  \"releaseYear\": 2014,\r\n  \"description\": \"Space epic\"\r\n}\r\n"
+            },
+            "url": {
+              "raw": "http://localhost:8080/genres/5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "genres",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Genre",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "openid email",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Comedy\",\r\n  \"description\": \"Laughing is always good!\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/genres",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "genres"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Genre",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "openid email",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Comedy\",\r\n  \"description\": \"Always a laugh!\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/genres/7",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "genres",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Genre",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "openid email",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Interstellar\",\r\n  \"director\": \"Ali Babba\",\r\n  \"releaseYear\": 2014,\r\n  \"description\": \"Space epic\"\r\n}\r\n"
+            },
+            "url": {
+              "raw": "http://localhost:8080/genres/7",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "genres",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Poster",
+      "item": [
+        {
+          "name": "Create Movie Poster",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "openid email",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "f0da963a-9827-48ea-a0d2-c0dad5931c3b",
+                  "src": "/C:/Users/robwi/OneDrive/Afbeeldingen/gladiatorposter.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/movies/13/poster",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "movies",
+                "13",
+                "poster"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Poster",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "openid email",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "f0da963a-9827-48ea-a0d2-c0dad5931c3b",
+                  "src": "/C:/Users/robwi/OneDrive/Afbeeldingen/91obuWzA3XL.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/movies/13/poster",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "movies",
+                "13",
+                "poster"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Poster",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "openid email",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/movies/13/poster",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "movies",
+                "13",
+                "poster"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "CollectionItem",
+      "item": [
+        {
+          "name": "Add Movie To Watchlist",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid profile email",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/collections/5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "collections",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Watchlist",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid profile email",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/collections",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "collections"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Watchlist",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid profile email",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"status\": \"WATCHED\",\r\n  \"favorite\": true,\r\n  \"rating\": 5\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/collections/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "collections",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Movie From Watchlist",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "openid email",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "authRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "tokenRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "testuser",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://oauth.pstmn.io/v1/callback",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "fUVbSpbLcPuBlm2wtJNg2SrvYBYXX232",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "MovieCollector-api",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:9090/realms/MovieCollector-api/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "refreshRequestParams",
+                  "value": [],
+                  "type": "any"
+                },
+                {
+                  "key": "challengeAlgorithm",
+                  "value": "S256",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/collections/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "collections",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

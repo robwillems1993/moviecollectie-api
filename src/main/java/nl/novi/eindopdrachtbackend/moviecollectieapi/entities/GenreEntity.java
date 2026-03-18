@@ -3,7 +3,7 @@ package nl.novi.eindopdrachtbackend.moviecollectieapi.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "genres")
+@Table(name = "genres", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class GenreEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

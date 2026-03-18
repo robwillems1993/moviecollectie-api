@@ -3,6 +3,7 @@ package nl.novi.eindopdrachtbackend.moviecollectieapi.servicesTests;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.genre.GenreRequestDTO;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.genre.GenreResponseDTO;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.entities.GenreEntity;
+import nl.novi.eindopdrachtbackend.moviecollectieapi.exceptions.ResourceNotFoundException;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.mappers.GenreDTOMapper;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.repositories.GenreRepository;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.services.GenreService;
@@ -52,7 +53,7 @@ class GenreServiceTest {
         when(genreRepository.findById(id)).thenReturn(Optional.empty());
 
         // Act en Assert
-        assertThrows(IllegalStateException.class,() -> genreService.findGenreById(id));
+        assertThrows(ResourceNotFoundException.class,() -> genreService.findGenreById(id));
     }
 
     @Test
@@ -108,7 +109,7 @@ class GenreServiceTest {
         when(genreRepository.findById(id)).thenReturn(Optional.empty());
 
         // Act en Assert
-        assertThrows(IllegalStateException.class,()-> genreService.updateGenre(id, new GenreRequestDTO()));
+        assertThrows(ResourceNotFoundException.class,()-> genreService.updateGenre(id, new GenreRequestDTO()));
     }
 
     @Test
@@ -146,7 +147,7 @@ class GenreServiceTest {
         when(genreRepository.findById(id)).thenReturn(Optional.empty());
 
         // Act en Assert
-        assertThrows(IllegalStateException.class, ()-> genreService.deleteGenre(id));
+        assertThrows(ResourceNotFoundException.class, ()-> genreService.deleteGenre(id));
     }
 
     @Test

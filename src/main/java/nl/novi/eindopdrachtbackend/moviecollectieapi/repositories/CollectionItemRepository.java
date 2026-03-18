@@ -12,4 +12,6 @@ public interface CollectionItemRepository extends JpaRepository<CollectionItemEn
     List<CollectionItemEntity> findAllByUsername(String username);
 
     Optional<CollectionItemEntity> findByUsernameAndMovieId(String username, Long movieId);
+
+    void deleteAllCollectionsByMovieId(Long movieId);
 }

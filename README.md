@@ -4,6 +4,7 @@
 
 - [Inleiding](#inleiding)
 - [Kernfunctionaliteiten](#kernfunctionaliteiten)
+- [Overzicht endpoints](#overzicht-endpoints)
 - [Projectstructuur](#projectstructuur)
 - [Gebruikte technieken](#gebruikte-technieken)
 - [Benodigdheden](#benodigdheden)
@@ -35,22 +36,51 @@ gebruikers (USER) alleen gegevens kunnen ophalen en hun eigen collectie-items ku
 - Gebruikers kunnen films aan hun persoonlijke watchlist toevoegen, beoordelen met een rating en als favoriet toevoegen
 - Beveiliging op basis van rollen (USER en ADMIN)
 
+## Overzicht endpoints
+Alle endpoints vereisen een geldig JWT-token verkregen via Keycloak.
+
+| Endpoint              | Methode | Beschrijving                     | Rol         |
+|-----------------------|---------|----------------------------------|-------------|
+| /movies               | GET     | Alle films ophalen               | USER, ADMIN |
+| /movies/{id}          | GET     | Film ophalen op ID               | USER, ADMIN |
+| /movies               | POST    | Nieuwe film toevoegen            | ADMIN       |
+| /movies/{id}          | PUT     | Film updaten                     | ADMIN       |
+| /movies/{id}          | DELETE  | Film verwijderen                 | ADMIN       |
+| /movies?genre={name}  | GET     | Films ophalen op genre           | USER, ADMIN |
+| /genres               | GET     | Alle genres ophalen              | USER, ADMIN |
+| /genres/{id}          | GET     | Genre ophalen op ID              | USER, ADMIN |
+| /genres               | POST    | Genre toevoegen                  | ADMIN       |
+| /genres/{id}          | PUT     | Genre updaten                    | ADMIN       |
+| /genres/{id}          | DELETE  | Genre verwijderen                | ADMIN       |
+| /movies/{id}/poster   | GET     | Poster ophalen                   | USER, ADMIN |
+| /movies/{id}/poster   | POST    | Poster uploaden                  | ADMIN       |
+| /movies/{id}/poster   | DELETE  | Poster verwijderen               | ADMIN       |
+| /collections          | GET     | Eigen collectie ophalen          | USER, ADMIN |
+| /collections          | POST    | Film toevoegen aan collectie     | USER, ADMIN |
+| /collections/{id}     | PUT     | Collectie item updaten           | USER, ADMIN |
+| /collections/{id}     | DELETE  | Film verwijderen uit collectie   | USER, ADMIN |
+
 ## Projectstructuur
-moviecollectie-api
-└── src
-    ├── main
-    │ ├── java/nl/novi/eindopdrachtbackend/moviecollectieapi
-    │ │ ├── config
-    │ │ ├── controllers
-    │ │ ├── dtos
-    │ │ ├── entities
-    │ │ ├── mappers
-    │ │ ├── repositories
-    │ │ ├── services
-    │ │ └── MovieCollectieApiApplication.java
-    └── test
-      └── java/nl/novi/eindopdrachtbackend/moviecollectieapi
-        └── servicesTests
+    moviecollectie-api
+    └── src
+        ├── main
+        │ ├── java/nl/novi/eindopdrachtbackend/moviecollectieapi
+        │ │ ├── config
+        │ │ ├── controllers
+        │ │ ├── dtos
+        │ │ ├── entities
+        │ │ ├── mappers
+        │ │ ├── repositories
+        │ │ ├── services
+        │ │ └── MovieCollectieApiApplication.java
+        │ └── resources
+        │   ├── application.properties
+        │   ├── application-test.properties
+        │   └── data.sql
+        └── test
+          └── java/nl/novi/eindopdrachtbackend/moviecollectieapi
+            ├── servicesTests
+            └── integrationTests
 
 ## Gebruikte technieken
 - Spring Boot
@@ -61,12 +91,13 @@ moviecollectie-api
 
 ## Benodigdheden
 Om deze applicatie lokaal te kunnen draaien heb je het volgende nodig:
-- Java 17 of hoger
-- Maven
-- PostgreSQL
-- pgAdmin
-- Postman
-- Keycloak (Alleen voor het registreren van nieuwe gebruikers)
+- IntelliJ IDEA (versie 2025.3.1.1 of hoger)
+- Java 25.0.1 LTS
+- Maven 3.9.12
+- pgAdmin 9.10
+- PostgreSQL 18.1
+- Postman 12.2.1
+- Keycloak 26.5.1
 
 ## Installatie-instructies
 
@@ -74,11 +105,25 @@ Om deze applicatie lokaal te kunnen draaien heb je het volgende nodig:
 Maak in PGAdmin een nieuwe database aan en noem deze:
 "moviecollectiedatabase"
 
+De applicatie maakt automatisch de tabellen aan bij het opstarten.
+
+In de map 'resources' bevindt zich een bestand genaamd 'data.sql'.
+Deze wordt automatisch uitgevoerd en vult de database met testdata.
+
 ### 2. Authenticatie (Keycloak)
 
 Deze API gebruikt JWT-tokens uitgegeven door Keycloak.
 
-Importeer in Keycloak eventueel de meegeleverde realm-export, deze is te vinden in de resources map.
+Importeer de meegeleverde realm-export (MovieCollector-api-realm.json), deze is te vinden in de resources map.
+
+Deze meegeleverde realm-export bevat:
+- Rollen: USER en ADMIN
+- Testgebruikers:
+  - gebruikersnaam / wachtwoord
+  - testuser / testuser
+  - testadmin / testadmin
+
+Na het importeren van de realm-export is het niet meer nodig om onderstaande stappen te doorlopen en kun je direct doorgaan naar punt 3. Applicatie starten.
 
 1. Start een Keycloak server
 
@@ -104,11 +149,8 @@ De applicatie is daarna aanspreekbaar via poort 8080.
 De applicatie bevat unit-tests voor de service-laag en integratietests voor de API.
 
 Tests uitvoeren:
-'mvn test' in de terminal
-of
-rechter-muisknop op het testbestand en klik "Run * with coverage"
-
-De service-laag (MovieService en GenreService) is getest met 100% line coverage.
+- 'mvn test' in de terminal
+- rechter-muisknop op het testbestand en klik "Run * with coverage"
 
 ## Gebruikersrollen
 Rol	Beschrijving
@@ -119,7 +161,7 @@ Er vindt authenticatie plaats bij elke API-call. Alle endpoints vereisen een gel
 
 In Postman:
 Vraag onder 'Authorization' een nieuwe token aan en log in via Keycloak.
-Gebruik eerder aangemaakte gebruikers (Zie 2. Authenticatie (Keycloak)).
+Gebruik eerder aangemaakte gebruikers (Zie 2. Authenticatie (Keycloak).
 Als de meegeleverde realm is geïmporteerd kunnen onderstaande testgebruikers worden gebruikt:
 USER    'testuser' met wachtwoord 'testuser'
 ADMIN   'testadmin' met wachtwoord 'testadmin'

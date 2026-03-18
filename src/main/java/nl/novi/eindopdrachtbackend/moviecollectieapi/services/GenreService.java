@@ -3,6 +3,8 @@ package nl.novi.eindopdrachtbackend.moviecollectieapi.services;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.genre.GenreRequestDTO;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.dtos.genre.GenreResponseDTO;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.entities.GenreEntity;
+import nl.novi.eindopdrachtbackend.moviecollectieapi.exceptions.ConflictException;
+import nl.novi.eindopdrachtbackend.moviecollectieapi.exceptions.ResourceNotFoundException;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.mappers.GenreDTOMapper;
 import nl.novi.eindopdrachtbackend.moviecollectieapi.repositories.GenreRepository;
 import org.springframework.stereotype.Service;
@@ -28,12 +30,15 @@ public class GenreService {
 
     @Transactional(readOnly = true)
     public GenreResponseDTO findGenreById(Long id) {
-        GenreEntity entity = genreRepository.findById(id).orElseThrow(() -> new IllegalStateException("Genre with id " + id + " not found"));
+        GenreEntity entity = genreRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Genre with id " + id + " not found"));
         return genreDTOMapper.mapToDto(entity);
     }
 
     @Transactional
     public GenreResponseDTO createGenre(GenreRequestDTO genreDTO) {
+        if (genreRepository.existsByNameIgnoreCase(genreDTO.getName())){
+            throw new ConflictException("Genre already exists.");
+        }
         GenreEntity entity = genreDTOMapper.mapToEntity(genreDTO);
         entity = genreRepository.save(entity);
         return genreDTOMapper.mapToDto(entity);
@@ -41,7 +46,13 @@ public class GenreService {
 
     @Transactional
     public GenreResponseDTO updateGenre(Long id, GenreRequestDTO genreDTO) {
-        GenreEntity genreEntity = genreRepository.findById(id).orElseThrow(() -> new IllegalStateException("Genre with id " + id + " not found"));
+        GenreEntity genreEntity = genreRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Genre with id " + id + " not found"));
+
+        boolean genreAlreadyExists = genreRepository.existsByNameIgnoreCase(genreDTO.getName()) && !genreEntity.getName().equalsIgnoreCase(genreDTO.getName());
+
+        if (genreAlreadyExists) {
+            throw new ConflictException("Genre already exists.");
+        }
 
         genreEntity.setName(genreDTO.getName());
         genreEntity.setDescription(genreDTO.getDescription());
@@ -52,7 +63,7 @@ public class GenreService {
 
     @Transactional
     public void deleteGenre(Long id) {
-        GenreEntity genreEntity = genreRepository.findById(id).orElseThrow(() -> new IllegalStateException("Genre with id " + id + " not found"));
+        GenreEntity genreEntity = genreRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Genre with id " + id + " not found"));
         genreRepository.delete(genreEntity);
     }
 }

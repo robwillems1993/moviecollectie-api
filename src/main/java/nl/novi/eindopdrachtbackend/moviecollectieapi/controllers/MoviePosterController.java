@@ -19,37 +19,24 @@ public class MoviePosterController {
 
     @PostMapping("/{movieId}/poster")
     public ResponseEntity<PosterResponseDTO> uploadPoster(@PathVariable Long movieId, @RequestParam("file") MultipartFile file) {
-        try {
-            PosterResponseDTO uploadedPoster = moviePosterService.uploadPoster(movieId, file);
-            return ResponseEntity.status(HttpStatus.CREATED).body(uploadedPoster);
-        } catch (IllegalStateException exception) {
-            return ResponseEntity.notFound().build();
-        }
+        PosterResponseDTO uploadedPoster = moviePosterService.uploadPoster(movieId, file);
+        return ResponseEntity.status(HttpStatus.CREATED).body(uploadedPoster);
     }
 
     @GetMapping("/{movieId}/poster")
     public ResponseEntity<byte[]> downloadPoster(@PathVariable Long movieId) {
-        try {
-            PosterDownloadDTO downloadedPoster = moviePosterService.downloadPoster(movieId);
+        PosterDownloadDTO downloadedPoster = moviePosterService.downloadPoster(movieId);
 
-
-            return ResponseEntity.ok()
-                    .header("Content-Type", downloadedPoster.getContentType())
-                    .header("Content-Disposition", "inline; filename=\"" + downloadedPoster.getFileName() + "\"")
-                    .body(downloadedPoster.getData());
-        } catch (IllegalStateException exception) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok()
+                .header("Content-Type", downloadedPoster.getContentType())
+                .header("Content-Disposition", "inline; filename=\"" + downloadedPoster.getFileName() + "\"")
+                .body(downloadedPoster.getData());
     }
 
     @DeleteMapping("/{movieId}/poster")
     public ResponseEntity<Void> deletePoster(@PathVariable Long movieId) {
-        try {
-            moviePosterService.deletePoster(movieId);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalStateException exception) {
-            return ResponseEntity.notFound().build();
-        }
+        moviePosterService.deletePoster(movieId);
+        return ResponseEntity.noContent().build();
     }
 }
 
